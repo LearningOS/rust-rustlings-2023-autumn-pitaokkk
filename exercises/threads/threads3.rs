@@ -1,10 +1,3 @@
-// threads3.rs
-//
-// Execute `rustlings hint threads3` or use the `hint` watch subcommand for a
-// hint.
-
-
-
 use std::sync::{mpsc, Arc, Mutex};
 use std::thread;
 use std::time::Duration;
@@ -64,9 +57,27 @@ fn main() {
     send_tx(Arc::clone(&queue), Arc::clone(&sender));
 
     let mut total_received: u32 = 0;
-    for received in rx {
-        println!("Got: {}", received);
-        total_received += 1;
+    let mut received_1 = 0;
+    let mut received_2 = 0;
+
+    loop {
+        let received = rx.try_recv();
+        match received {
+            Ok(val) => {
+                println!("Got: {}", val);
+                total_received += 1;
+                if total_received <= queue_length / 2 {
+                    received_1 += 1;
+                } else {
+                    received_2 += 1;
+                }
+            }
+            Err(_) => {
+                if received_1 + received_2 == queue_length {
+                    break;
+                }
+            }
+        }
     }
 
     println!("total numbers received: {}", total_received);
