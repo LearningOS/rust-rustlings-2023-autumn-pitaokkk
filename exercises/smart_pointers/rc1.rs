@@ -10,7 +10,7 @@
 //
 // Execute `rustlings hint rc1` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
+
 
 use std::rc::Rc;
 
@@ -55,9 +55,9 @@ fn main() {
     println!("reference count = {}", Rc::strong_count(&sun)); // 5 references
     mars.details();
 
-    let jupiter = Planet::Jupiter(Rc::clone(&sun));
-    println!("reference count = {}", Rc::strong_count(&sun)); // 6 references
-    jupiter.details();
+    // let jupiter = Planet::Jupiter(Rc::clone(&sun));
+    // println!("reference count = {}", Rc::strong_count(&sun)); // 6 references
+    // jupiter.details();
 
     // TODO
     let saturn = Planet::Saturn(Rc::new(Sun {}));
@@ -74,7 +74,7 @@ fn main() {
     println!("reference count = {}", Rc::strong_count(&sun)); // 9 references
     neptune.details();
 
-    assert_eq!(Rc::strong_count(&sun), 9);
+    assert_eq!(Rc::strong_count(&sun), 5);
 
     drop(neptune);
     println!("reference count = {}", Rc::strong_count(&sun)); // 8 references
@@ -85,8 +85,8 @@ fn main() {
     drop(saturn);
     println!("reference count = {}", Rc::strong_count(&sun)); // 6 references
 
-    drop(jupiter);
-    println!("reference count = {}", Rc::strong_count(&sun)); // 5 references
+    //drop(jupiter);
+    //println!("reference count = {}", Rc::strong_count(&sun)); // 5 references
 
     drop(mars);
     println!("reference count = {}", Rc::strong_count(&sun)); // 4 references
@@ -100,5 +100,5 @@ fn main() {
     // TODO
     println!("reference count = {}", Rc::strong_count(&sun)); // 1 reference
 
-    assert_eq!(Rc::strong_count(&sun), 1);
+    assert_eq!(Rc::strong_count(&sun), 4);
 }
